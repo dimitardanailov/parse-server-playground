@@ -19,7 +19,8 @@ var api = new ParseServer(
 
   liveQuery:
   {
-    classNames: [] // List of classes to support for query subscriptions example: [ 'Posts', 'Comments' ]
+    // List of classes to support for query subscriptions example: [ 'Posts', 'Comments' ]
+    classNames: ['People']
   },
 });
 
@@ -43,7 +44,9 @@ app.use(mountPath, api);
 
 
 var httpServer = require('http').createServer(app);
-httpServer.listen(port, function(){ console.log('Running on http://localhost:' + port); });
+httpServer.listen(port, function(){ 
+  console.log('Running on http://localhost:' + port); 
+});
 
 // This will enable the Live Query real-time server
 ParseServer.createLiveQueryServer(httpServer);
