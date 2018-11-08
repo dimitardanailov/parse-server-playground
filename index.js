@@ -20,7 +20,7 @@ var api = new ParseServer(
   liveQuery:
   {
     // List of classes to support for query subscriptions example: [ 'Posts', 'Comments' ]
-    classNames: ['People']
+    classNames: ['GameScore']
   },
 });
 

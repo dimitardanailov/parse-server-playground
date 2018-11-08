@@ -2,50 +2,50 @@
 * Advanced Cloud Code Example
 */
 
-var express = require('express');
-var app = express();
-var ParseServer = require('parse-server').ParseServer;
+const express = require('express');
+const app = express();
+const ParseServer = require('parse-server').ParseServer;
+const Monster = require('./models/Monster');
+const GameScore = require('./models/GameScore');
 
 app.get('/hello-advanced', function (req, res)
 {
   res.send("Hello from SashiDo's Advanced Cloud Code");
 });
 
-app.get('/people/:name', function(req, res) {
+app.get('/gamescore/subscription', function(req, res) {
   const name = req.params.name || '';
 
-  let query = new Parse.Query('People');
-  query.equalTo('name', name);
+  let query = new Parse.Query('GameScore');
+  query.equalTo('score', 1337);
   let subscription = query.subscribe();
-  subscription.on('create', (err, people) => {
-    console.log('subscription.on')
-    if (err) {
-      throw err;
-    }
+  subscription.on('create', (score) => {
     // This should output ${req.params.name}
-    console.log(people.get('name')); 
+    console.log(score.get('playerName')); 
   });
 
-  res.send({})
+  // res.send({})
 });
 
-app.get('/create', function(req, res) {
-  const GameScore = Parse.Object.extend("GameScore");
-  const gameScore = new GameScore();
+app.get('/gamescore/create', async (req, res) => {
+  const gameScore = GameScore.createGameScore({
+    score: 1337,
+    playerName: "Sean Plott",
+    cheatMode: false,
+    skills: ["pwnage", "flying"]
+  })
 
-  gameScore.set("score", 1337);
-  gameScore.set("playerName", "Sean Plott");
-  gameScore.set("cheatMode", false);
+  await gameScore.save();
 
-  gameScore.save()
-  .then((gameScore) => {
-    // Execute any logic that should take place after the object is saved.
-    alert('New object created with objectId: ' + gameScore.id);
-  }, (error) => {
-    // Execute any logic that should take place if the save fails.
-    // error is a Parse.Error with an error code and message.
-    alert('Failed to create new object, with error code: ' + error.message);
-  });
+  res.send(gameScore);
+});
+
+app.get('/monsters/create', async (req, res) => {
+  const monster = Monster.spawn(100);
+
+  await monster.save();
+  
+  res.send(monster)
 });
 
 /*
