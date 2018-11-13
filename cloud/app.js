@@ -10,7 +10,7 @@ const GameScore = require('./models/GameScore');
 
 app.get('/hello-advanced', function (req, res)
 {
-  res.send("Hello from SashiDo's Advanced Cloud Code");
+  res.send({response: "Hello from SashiDo's Advanced Cloud Code"});
 });
 
 app.get('/gamescore/subscription', function(req, res) {
@@ -22,29 +22,30 @@ app.get('/gamescore/subscription', function(req, res) {
   subscription.on('create', (score) => {
     // This should output ${req.params.name}
     console.log(score.get('playerName')); 
-  });
 
-  // res.send({})
+    res.send({'name': score.get('playerName')})
+  });
 });
 
 app.get('/gamescore/create', async (req, res) => {
+  console.log('here');
   const gameScore = GameScore.createGameScore({
     score: 1337,
     playerName: "Sean Plott",
     cheatMode: false,
     skills: ["pwnage", "flying"]
-  })
+  });
 
   await gameScore.save();
 
-  res.send(gameScore);
+  // res.send(gameScore);
 });
 
 app.get('/monsters/create', async (req, res) => {
   const monster = Monster.spawn(100);
 
   await monster.save();
-  
+
   res.send(monster)
 });
 

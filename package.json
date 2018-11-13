@@ -9,13 +9,21 @@
     },
     "license": "MIT",
     "dependencies": {
+        "nock": "^10.0.2",
         "parse": "~1.8.0",
         "parse-server": "~2.2.2"
     },
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "test": "NODE_ENV=test jest"
     },
     "engines": {
         "node": ">=4.3"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "chai-http": "^4.2.0",
+        "jest": "^23.6.0",
+        "supertest": "^3.3.0"
     }
 }

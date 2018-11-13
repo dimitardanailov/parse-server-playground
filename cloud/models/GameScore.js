@@ -19,6 +19,11 @@ class GameScore extends Parse.Object {
 		gamescore.set('playerName', params.playerName || '');
 		gamescore.set('cheatMode', params.cheatMode || false);
 		gamescore.set('skills', params.skills || []);
+		gamescore.set('date', new Date());
+		gamescore.set('object', {
+			number: 42,
+			string: 'Hello world'
+		});
 		
 		return gamescore;
 	}
